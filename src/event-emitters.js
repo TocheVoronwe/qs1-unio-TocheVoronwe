@@ -9,33 +9,22 @@ const johnSay = say(john);
 const eventEmitter = require('events');
 const myEmitter = new eventEmitter();
 
+
 myEmitter.on('north', () => {
-  myEmitter.emit('arya');
-  callback(sensaSay, 'For the North');
-  /*setImmediate(sensaSay, 'For the N<orth');*/
+  sensaSay('For the North');
+  setImmediate(() => myEmitter.emit('arya'));
 });
 
-myEmitter.once('north', () => {
-  setImmediate(johnSay, 'Winter is coming');
-});
+myEmitter.once('north', () => johnSay('Winter is coming'));
 
-myEmitter.on('arya', () => {
-  setImmediate(aryaSay, 'The king in the North');
-});
 
+myEmitter.on('arya', () => aryaSay('The king in the North'));
 
 const timeoutObj = setTimeout(() => {
   myEmitter.emit('north');
 }, 1000);
 
-const immediateObj = setImmediate(() => {
-  console.log('immediately executing immediate');
-});
-
-const intervalObj = setInterval(() => {
-  myEmitter.emit('north');
-}, 1000);
+const intervalObj = setInterval(() => myEmitter.emit('north'), 1000);
 
 clearTimeout(timeoutObj);
-clearImmediate(immediateObj);
 setTimeout(clearInterval, 5000, intervalObj);
