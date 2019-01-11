@@ -6,23 +6,13 @@ const johnSay = say(john, 'Winter is coming');
 const aryaSay = say(arya, 'The king in the North');
 const sensaSay = say(sensa, 'For the North');
 
-const speak = () =>
-  sensaSay
-    .then(result => {
-      console.log(result);
-      return aryaSay;
-    })
-    .then(console.log);
-
-speak().then(() =>
-  johnSay.then(result => {
-    console.log(result);
-    return new Promise((res) => {
-      timer = setInterval(speak, 1000);
-      setTimeout(() => {
-        clearInterval(timer);
-        res();
-      }, 10000);
-    });
-  }))
-  .catch(err => console.error(err));
+sensaSay.then(res => {
+  console.log(res);
+  aryaSay.then(console.log);
+  interval = setInterval(() => {
+    console.log(res);
+    aryaSay.then(console.log);
+  }, 1000);
+  setTimeout(() => clearInterval(interval), 10000);
+  johnSay.then(console.log);
+});
